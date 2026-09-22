@@ -1,0 +1,24 @@
+# SPICE NODE robots.txt
+# 모든 검색엔진에 모든 페이지 크롤링 허용
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Naver Bot
+User-agent: Yeti
+Allow: /
+Crawl-delay: 1
+
+# Daum Bot
+User-agent: Daumoa
+Allow: /
+Crawl-delay: 1
+
+# 모든 봇
+User-agent: *
+Allow: /
+
+# Sitemap 위치
+Sitemap: https://spice-node.com/sitemap.xml
