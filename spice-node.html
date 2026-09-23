@@ -81,7 +81,29 @@
     --text-mid: #6B4F34;
     --text-light: #A07C58;
   }
-  html { scroll-behavior: smooth; }
+  html { 
+    /* 부드러운 스크롤은 모바일에서만 */
+    scroll-behavior: auto;
+  }
+
+  /* PC 성능 최적화 */
+  @media (min-width: 1024px) {
+    * {
+      /* 레이아웃 thrashing 방지 */
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    body {
+      /* GPU 가속 활성화 */
+      transform: translateZ(0);
+    }
+
+    /* 스크롤 성능 향상 */
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   body { background: var(--cream-light); color: var(--text-dark); font-family: 'Noto Sans KR', sans-serif; overflow-x: hidden; line-height: 1.6; }
 
   /* ── NAV ── */
@@ -2128,6 +2150,502 @@
       bottom: 0%;
       left: 50%;
       transform: translateX(-50%);
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* ULTRA MOBILE OPTIMIZATION (375px 이하 - 스마트폰 기본 사이즈) */
+  /* ═══════════════════════════════════════════════════════════ */
+
+  @media (max-width: 375px) {
+    /* 기본 레이아웃 */
+    html, body {
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 네비게이션 */
+    .navbar-header {
+      padding: 10px 10px;
+      background: rgba(59, 42, 26, 0.95);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-logo {
+      width: 100px !important;
+    }
+
+    .nav-logo-section {
+      flex: 0 0 auto;
+    }
+
+    .nav-links {
+      gap: 8px;
+      font-size: 9px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 2px 4px;
+    }
+
+    /* HERO 섹션 */
+    .hero {
+      margin-top: 60px;
+      min-height: 60vh;
+      padding-top: 20px;
+    }
+
+    .hero-bg {
+      background-attachment: scroll;
+    }
+
+    /* 타이틀 레이어 */
+    .title-layer {
+      padding: 0 15px;
+      gap: 15px;
+      top: 80px;
+    }
+
+    .title-left,
+    .title-right {
+      width: 100%;
+    }
+
+    .hero-sub,
+    .hero-tagline {
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    /* 버튼 */
+    .hero-cta {
+      bottom: 50px;
+      left: 50%;
+      gap: 8px;
+      flex-wrap: wrap;
+      width: 90%;
+      justify-content: center;
+    }
+
+    .btn-primary,
+    .btn-outline {
+      padding: 8px 16px;
+      font-size: 11px;
+      flex: 1;
+      min-width: 120px;
+      max-width: 150px;
+    }
+
+    /* 페퍼 이미지 */
+    .hero-object {
+      width: 180px;
+      height: 220px;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 50%;
+      animation: none;
+    }
+
+    /* 스크롤 힌트 */
+    .scroll-hint {
+      font-size: 8px;
+      letter-spacing: 0px;
+      bottom: 30px;
+    }
+
+    .scroll-line {
+      height: 25px;
+    }
+
+    /* INTRO 섹션 */
+    .intro-section {
+      padding: 40px 15px;
+    }
+
+    .intro-content {
+      padding: 20px;
+    }
+
+    .intro-image {
+      height: 200px;
+    }
+
+    /* ABOUT 섹션 */
+    .botanical-section,
+    .role-section {
+      padding: 0 15px 60px;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .botanical-section__image,
+    .role-section__image {
+      width: 100%;
+      height: 200px;
+    }
+
+    .about-page h2 {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-intro {
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+
+    .role-section__content {
+      padding: 25px 15px;
+      background: #26382c;
+    }
+
+    /* APPLICATION 섹션 */
+    .application-section {
+      padding: 30px 15px;
+      min-height: auto;
+    }
+
+    .application-header {
+      margin-bottom: 40px;
+    }
+
+    .application-eyebrow {
+      font-size: 9px;
+      margin-bottom: 20px;
+    }
+
+    .application-title {
+      font-size: 24px;
+      line-height: 1.2;
+      margin-bottom: 15px;
+    }
+
+    .application-description {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .application-ecosystem {
+      aspect-ratio: auto;
+      height: 800px;
+      position: relative;
+      margin: 40px 0;
+    }
+
+    .application-core {
+      width: 100px;
+      top: 35%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .application-core__image {
+      width: 80px;
+      height: 80px;
+    }
+
+    .application-core__brand {
+      font-size: 16px;
+    }
+
+    .application-card {
+      width: 90px;
+    }
+
+    .application-card__image {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 8px;
+    }
+
+    .application-card h3 {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .application-card p {
+      font-size: 9px;
+      line-height: 1.3;
+    }
+
+    .application-card__icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 카드 위치 조정 */
+    .application-card--food {
+      top: 5%;
+      left: 8%;
+    }
+
+    .application-card--dessert {
+      top: 5%;
+      right: 8%;
+    }
+
+    .application-card--beverage {
+      top: 40%;
+      left: -8%;
+    }
+
+    .application-card--cosmetics {
+      top: 40%;
+      right: -8%;
+    }
+
+    .application-card--fragrance {
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* PRODUCT 섹션 */
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 0 15px;
+    }
+
+    .product-card-image {
+      height: 180px;
+    }
+
+    .product-section {
+      padding: 40px 15px;
+    }
+
+    .product-title {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* CONTACT 섹션 */
+    .contact-section {
+      padding: 40px 15px;
+    }
+
+    .contact-item {
+      padding: 15px 0;
+    }
+
+    .contact-label {
+      font-size: 11px;
+    }
+
+    .contact-value {
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    /* 텍스트 */
+    p, li, a {
+      word-break: break-word;
+    }
+
+    /* 이미지 */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* 테이블 */
+    table {
+      width: 100%;
+      font-size: 11px;
+    }
+
+    /* 애니메이션 비활성화 (성능 개선) */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* 소형 모바일 (400px ~ 480px) */
+  /* ═══════════════════════════════════════════════════════════ */
+
+  @media (min-width: 376px) and (max-width: 480px) {
+    .navbar-header {
+      padding: 12px 12px;
+    }
+
+    .nav-logo {
+      width: 110px !important;
+    }
+
+    .nav-links {
+      gap: 10px;
+      font-size: 10px;
+    }
+
+    .hero {
+      min-height: 65vh;
+    }
+
+    .title-layer {
+      padding: 0 18px;
+    }
+
+    .hero-sub,
+    .hero-tagline {
+      font-size: 12px;
+    }
+
+    .btn-primary,
+    .btn-outline {
+      padding: 10px 20px;
+      font-size: 12px;
+    }
+
+    .hero-object {
+      width: 200px;
+      height: 250px;
+    }
+
+    .about-page h2 {
+      font-size: 20px;
+    }
+
+    .application-card {
+      width: 95px;
+    }
+
+    .application-ecosystem {
+      height: 850px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* 중형 태블릿 (481px ~ 768px) */
+  /* ═══════════════════════════════════════════════════════════ */
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    .navbar-header {
+      padding: 15px 20px;
+    }
+
+    .nav-links {
+      gap: 20px;
+      font-size: 11px;
+    }
+
+    .hero {
+      min-height: 75vh;
+    }
+
+    .title-layer {
+      padding: 0 30px;
+    }
+
+    .hero-sub,
+    .hero-tagline {
+      font-size: 13px;
+    }
+
+    .hero-object {
+      width: 250px;
+      height: 300px;
+    }
+
+    .about-page h2 {
+      font-size: 24px;
+    }
+
+    .application-card {
+      width: 110px;
+    }
+
+    .application-ecosystem {
+      height: 700px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* 큰 태블릿 (769px ~ 1023px) */
+  /* ═══════════════════════════════════════════════════════════ */
+
+  @media (min-width: 769px) and (max-width: 1023px) {
+    .navbar-header {
+      padding: 20px 40px;
+    }
+
+    .nav-links {
+      gap: 30px;
+      font-size: 12px;
+    }
+
+    .hero {
+      min-height: 85vh;
+    }
+
+    .title-layer {
+      padding: 0 40px;
+    }
+
+    .hero-sub,
+    .hero-tagline {
+      font-size: 14px;
+    }
+
+    .hero-object {
+      width: 280px;
+      height: 340px;
+    }
+
+    .title-left,
+    .title-right {
+      width: 40%;
+    }
+
+    .about-page h2 {
+      font-size: 32px;
+    }
+
+    .application-card {
+      width: 130px;
+    }
+
+    .application-ecosystem {
+      height: 600px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* 데스크톱 (1024px 이상) - 최적화 */
+  /* ═══════════════════════════════════════════════════════════ */
+
+  @media (min-width: 1024px) {
+    /* 불필요한 애니메이션 최적화 */
+    .scroll-hint {
+      animation: fadeUp 0.8s 1.2s forwards;
+    }
+
+    /* will-change 선택적 사용 */
+    .pepper-layer {
+      will-change: transform;
+    }
+
+    .title-layer {
+      will-change: auto;
     }
   }
 
