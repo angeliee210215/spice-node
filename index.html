@@ -994,6 +994,61 @@
   }
   .btn-submit:hover { background: var(--spice-warm); transform: translateY(-2px); }
 
+  /* ── CONTACT FORM: 전송/오류 상태 (추가) ── */
+  .spice-contact-form .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .spice-contact-form .btn-submit:disabled:hover { background: var(--brown-deep); transform: none; }
+  .spice-contact-form .spice-contact-invalid { border-bottom-color: #B0472A; }
+  .spice-contact-error {
+    font-family: 'Noto Sans KR', sans-serif; font-size: 13px; line-height: 1.7;
+    color: #B0472A; white-space: pre-line; margin: 0;
+  }
+  .spice-contact-error[hidden] { display: none; }
+
+  /* ── 문의 접수 성공 팝업 (추가) ── */
+  .spice-modal-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; box-sizing: border-box;
+    background: rgba(30, 20, 12, 0.55);
+    overscroll-behavior: contain;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .spice-modal-overlay.spice-modal-open {
+    opacity: 1; visibility: visible;
+    transition: opacity 0.25s ease, visibility 0s;
+  }
+  .spice-success-box {
+    width: 100%; max-width: 360px; box-sizing: border-box;
+    max-height: calc(100vh - 40px); overflow-y: auto;
+    background: #F5EDD9; color: #3B2A1A;
+    border-radius: 6px; border-top: 3px solid #D4A850;
+    padding: 40px 32px 32px; text-align: center;
+    box-shadow: 0 18px 48px rgba(59, 42, 26, 0.28);
+    transform: scale(0.96); transition: transform 0.25s ease;
+    outline: none;
+  }
+  .spice-modal-open .spice-success-box { transform: scale(1); }
+  .spice-success-title {
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif; font-size: 20px; font-weight: 700;
+    color: #3B2A1A; margin: 0 0 16px; letter-spacing: -0.2px;
+  }
+  .spice-success-line { width: 32px; height: 2px; background: #C8783A; margin: 0 auto 16px; }
+  .spice-success-text {
+    font-family: 'Noto Sans KR', sans-serif; font-size: 14px; line-height: 1.9;
+    color: #6B4F34; margin: 0 0 28px; word-break: keep-all;
+  }
+  .spice-success-btn {
+    min-width: 120px; padding: 12px 32px; background: #3B2A1A; color: #FAF4E8;
+    font-family: 'Poppins', 'Noto Sans KR', sans-serif; font-size: 13px; letter-spacing: 3px;
+    border: none; border-radius: 3px; cursor: pointer; transition: background 0.3s;
+  }
+  .spice-success-btn:hover, .spice-success-btn:focus-visible { background: #C8783A; }
+  .spice-success-btn:focus-visible { outline: 2px solid #D4A850; outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .spice-modal-overlay, .spice-success-box { transition: none; }
+  }
+
   /* ── FOOTER ── */
   footer {
     background: var(--brown-deep); color: rgba(245,237,217,0.5); padding: 48px 60px;
@@ -3124,30 +3179,35 @@
 
   <div class="contact-form-wrap reveal">
     <h3>문의하기</h3>
-    <form class="contact-form" onsubmit="return false;">
+    <form class="contact-form spice-contact-form" id="spiceContactForm"
+          action="https://formspree.io/f/xgavdoqw" method="POST" novalidate>
+      <input type="hidden" name="subject" value="SPICE NODE 홈페이지 문의">
+      <input type="hidden" name="_subject" value="SPICE NODE 홈페이지 문의">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="form-group">
-        <label class="form-label">성함 / 회사명</label>
-        <input class="form-input" type="text" placeholder="이름 또는 회사명">
+        <label class="form-label" for="spiceContactName">성함 / 회사명</label>
+        <input class="form-input" id="spiceContactName" name="name" type="text" placeholder="이름 또는 회사명" autocomplete="name" required>
       </div>
       <div class="form-group">
-        <label class="form-label">연락처 / 이메일</label>
-        <input class="form-input" type="text" placeholder="전화번호 또는 이메일">
+        <label class="form-label" for="spiceContactEmail">연락처 / 이메일</label>
+        <input class="form-input" id="spiceContactEmail" name="email" type="email" placeholder="이메일 주소" autocomplete="email" required>
       </div>
       <div class="form-group">
-        <label class="form-label">문의 유형 (중복 선택 가능)</label>
-        <div class="checkbox-group">
-          <label class="checkbox-label"><input type="checkbox"> 원료 및 에센스 공급 문의</label>
-          <label class="checkbox-label"><input type="checkbox"> 제품 개발 협업</label>
-          <label class="checkbox-label"><input type="checkbox"> 샘플 신청</label>
-          <label class="checkbox-label"><input type="checkbox"> OEM / ODM 문의</label>
-          <label class="checkbox-label"><input type="checkbox"> 공동 연구 제안</label>
-          <label class="checkbox-label"><input type="checkbox"> 기타 문의</label>
+        <label class="form-label" id="spiceContactTypeLabel">문의 유형 (중복 선택 가능)</label>
+        <div class="checkbox-group" role="group" aria-labelledby="spiceContactTypeLabel">
+          <label class="checkbox-label"><input type="checkbox" name="inquiry_type" value="원료 및 에센스 공급 문의"> 원료 및 에센스 공급 문의</label>
+          <label class="checkbox-label"><input type="checkbox" name="inquiry_type" value="제품 개발 협업"> 제품 개발 협업</label>
+          <label class="checkbox-label"><input type="checkbox" name="inquiry_type" value="샘플 신청"> 샘플 신청</label>
+          <label class="checkbox-label"><input type="checkbox" name="inquiry_type" value="OEM / ODM 문의"> OEM / ODM 문의</label>
+          <label class="checkbox-label"><input type="checkbox" name="inquiry_type" value="공동 연구 제안"> 공동 연구 제안</label>
+          <label class="checkbox-label"><input type="checkbox" name="inquiry_type" value="기타 문의"> 기타 문의</label>
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">문의 내용</label>
-        <textarea class="form-textarea" placeholder="구체적인 문의 내용을 입력하세요..."></textarea>
+        <label class="form-label" for="spiceContactMessage">문의 내용</label>
+        <textarea class="form-textarea" id="spiceContactMessage" name="message" placeholder="구체적인 문의 내용을 입력하세요..." required></textarea>
       </div>
+      <p class="spice-contact-error" id="spiceContactError" role="alert" aria-live="polite" hidden></p>
       <button class="btn-submit" type="submit">문의 신청</button>
     </form>
   </div>
@@ -3159,6 +3219,16 @@
   <p>© 2025 SPICE NODE. All rights reserved.</p>
   <p>spice-node.kr</p>
 </footer>
+
+<!-- 문의 접수 성공 팝업 -->
+<div class="spice-modal-overlay" id="spiceSuccessModal" aria-hidden="true">
+  <div class="spice-success-box" role="dialog" aria-modal="true" aria-labelledby="spiceSuccessTitle" aria-describedby="spiceSuccessText" tabindex="-1">
+    <h3 class="spice-success-title" id="spiceSuccessTitle">문의가 접수되었습니다.</h3>
+    <div class="spice-success-line"></div>
+    <p class="spice-success-text" id="spiceSuccessText">보내주신 내용을 확인한 후<br>빠르게 연락드리겠습니다.</p>
+    <button type="button" class="spice-success-btn" id="spiceSuccessClose">확인</button>
+  </div>
+</div>
 
 <script>
   // ── Parallax Layering Effect ──
@@ -3239,6 +3309,117 @@
       document.getElementById('videoModal').classList.remove('open');
     }
   }
+</script>
+<script>
+/* ── 문의 폼: Formspree AJAX 전송 + 성공 팝업 (기존 스크립트와 독립) ── */
+(function () {
+  var ENDPOINT = 'https://formspree.io/f/xgavdoqw';
+  var form = document.getElementById('spiceContactForm');
+  var modal = document.getElementById('spiceSuccessModal');
+  var closeBtn = document.getElementById('spiceSuccessClose');
+  var errorBox = document.getElementById('spiceContactError');
+  if (!form || !modal || !closeBtn || !errorBox) return;
+
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var originalLabel = submitBtn.textContent;
+  var sending = false;
+  var lastFocus = null;
+
+  function showError(msg, field) {
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    if (field) { field.classList.add('spice-contact-invalid'); field.setAttribute('aria-invalid', 'true'); field.focus(); }
+  }
+  function clearErrors() {
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+    form.querySelectorAll('.spice-contact-invalid').forEach(function (el) {
+      el.classList.remove('spice-contact-invalid'); el.removeAttribute('aria-invalid');
+    });
+  }
+  function setSending(on) {
+    sending = on;
+    submitBtn.disabled = on;
+    submitBtn.textContent = on ? '전송 중...' : originalLabel;
+  }
+
+  function validate() {
+    var name = form.elements['name'], email = form.elements['email'], msg = form.elements['message'];
+    if (!name.value.trim()) { showError('성함 또는 회사명을 입력해 주세요.', name); return false; }
+    if (!email.value.trim()) { showError('이메일을 입력해 주세요.', email); return false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { showError('올바른 이메일 주소를 입력해 주세요.', email); return false; }
+    if (!form.querySelector('input[name="inquiry_type"]:checked')) {
+      showError('문의 유형을 하나 이상 선택해 주세요.', form.querySelector('input[name="inquiry_type"]')); return false;
+    }
+    if (!msg.value.trim()) { showError('문의 내용을 입력해 주세요.', msg); return false; }
+    return true;
+  }
+
+  function openModal() {
+    lastFocus = document.activeElement;
+    modal.classList.add('spice-modal-open');
+    modal.setAttribute('aria-hidden', 'false');
+    closeBtn.focus();
+  }
+  function closeModal() {
+    if (!modal.classList.contains('spice-modal-open')) return;
+    modal.classList.remove('spice-modal-open');
+    modal.setAttribute('aria-hidden', 'true');
+    form.reset();
+    clearErrors();
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (sending) return;
+    clearErrors();
+    if (!validate()) return;
+
+    setSending(true);
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+
+    fetch(ENDPOINT, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' },
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (res.ok && data.ok !== false && !data.errors) {
+          form.reset();           // 서버가 성공 응답한 경우에만 초기화 + 팝업
+          openModal();
+        } else {
+          console.error('Formspree error:', res.status, data);
+          showError('문의 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.');
+        }
+      });
+    }).catch(function (err) {
+      console.error('Formspree network error:', err);
+      showError('문의 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.');
+    }).then(function () {
+      if (timer) clearTimeout(timer);
+      setSending(false);
+    });
+  });
+
+  // 입력 시 해당 필드의 오류 표시 해제
+  form.addEventListener('input', function (e) {
+    if (e.target.classList && e.target.classList.contains('spice-contact-invalid')) {
+      e.target.classList.remove('spice-contact-invalid'); e.target.removeAttribute('aria-invalid');
+    }
+  });
+
+  // 팝업 닫기: 확인 버튼 / 바깥 클릭 / ESC
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (!modal.classList.contains('spice-modal-open')) return;
+    if (e.key === 'Escape') { closeModal(); }
+    else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }  // 포커스가 팝업 밖으로 나가지 않게
+  });
+})();
 </script>
 </body>
 </html>
