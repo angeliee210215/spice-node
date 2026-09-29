@@ -94,10 +94,7 @@
       -webkit-backface-visibility: hidden;
     }
 
-    body {
-      /* GPU 가속 활성화 */
-      transform: translateZ(0);
-    }
+    /* body transform 제거: transform이 있으면 fixed 배경/레이어가 뷰포트 기준으로 동작하지 않음 */
 
     /* 스크롤 성능 향상 */
     html {
@@ -215,6 +212,21 @@
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* ── HOME + INTRO 공통 고정 배경 ── */
+  .bg-zone {
+    position: relative;
+    display: flow-root;
+    isolation: isolate;
+    clip-path: inset(0);   /* 고정 배경을 HOME~INTRO 영역 안에서만 보이게 자름 */
+  }
+  .site-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #2a1f14 url('./home-bg.jpg') center / cover no-repeat;
+    pointer-events: none;
+  }
+
   /* ── HERO (PARALLAX LAYERING) ── */
   .hero {
     position: relative;
@@ -229,12 +241,8 @@
   .hero-bg {
     position: absolute;
     inset: 0;
-    background-image: url('./home-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     z-index: 1;
-    background-repeat: no-repeat;
+    /* 배경 이미지는 .site-bg 하나로 통합 */
   }
 
   /* 천 텍스처 오버레이 - 최소화 (이미지 본연 유지) */
@@ -616,10 +624,6 @@
 
   /* ── INTRODUCTION ── */
   #intro { 
-    background-image: url('./home-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     padding: 100px 60px; 
     display: grid; 
     grid-template-columns: 1fr 1fr; 
@@ -2665,6 +2669,8 @@
 
 <!-- NAV -->
 <!-- 헤더와 히어로의 부모 컨테이너 -->
+<div class="bg-zone">
+<div class="site-bg" aria-hidden="true"></div>
 <div class="hero-container">
   <!-- 헤더: 투명하고 위에 떠 있음 -->
   <header id="navbar" class="navbar-header">
@@ -2721,17 +2727,6 @@
 </div>
 
 
-<!-- VIDEO MODAL -->
-<div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
-  <div class="modal-box">
-    <button class="modal-close" onclick="document.getElementById('videoModal').classList.remove('open')">✕ Close</button>
-    <div class="video-placeholder">
-      <div class="vp-icon"></div>
-      <p>브랜드 영상이 이곳에 들어갑니다</p>
-    </div>
-  </div>
-</div>
-
 <!-- INTRODUCTION -->
 <section id="intro">
   <div class="intro-visual reveal">
@@ -2753,6 +2748,20 @@
     <a href="#product" class="btn-primary">에센스 플랫폼 보기</a>
   </div>
 </section>
+</div><!-- /bg-zone -->
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('videoModal').classList.remove('open')">✕ Close</button>
+    <div class="video-placeholder">
+      <div class="vp-icon"></div>
+      <p>브랜드 영상이 이곳에 들어갑니다</p>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- ABOUT -->
 <section id="about" class="about-page">
