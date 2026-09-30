@@ -2718,6 +2718,117 @@
 
   }
 
+
+  /* ══════════ MOBILE (≤767px) 전용 오버라이드 ══════════
+     Desktop 규칙은 건드리지 않고, 이 블록에서만 재정의합니다. */
+  .nav-toggle { display: none; }   /* Desktop: 햄버거 숨김 */
+
+  @media (max-width: 767px) {
+    html, body { max-width: 100%; overflow-x: hidden; }   /* 최종 안전장치 */
+    img { max-width: 100%; height: auto; }
+    h1, h2, h3, p, a, li, span { overflow-wrap: break-word; }
+    section { padding: 64px 20px; }
+
+    /* ── Header: 로고 + 햄버거 ── */
+    .navbar-header, .navbar-header.scrolled { padding: 8px 20px; min-height: 64px; box-sizing: border-box; }
+    .navbar-header.scrolled { background: rgba(59, 42, 26, 0.92) !important; }
+    .logo-img { height: 46px !important; width: auto !important; }
+    .nav-toggle {
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      width: 44px; height: 44px; padding: 0; margin: 0 -8px 0 0;
+      background: transparent; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: #F5EDD9; transition: transform 0.3s, opacity 0.3s; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .navbar-header .nav-links {
+      display: none; position: absolute; top: 100%; left: 0; right: 0; width: 100%;
+      flex-direction: column; gap: 0; margin: 0; padding: 4px 20px 12px; box-sizing: border-box;
+      background: rgba(59, 42, 26, 0.97);
+    }
+    .navbar-header .nav-links.active { display: flex; }
+    .navbar-header .nav-links li { width: 100%; }
+    .navbar-header .nav-links a {
+      display: block; width: 100%; padding: 16px 0; font-size: 13px; letter-spacing: 3px;
+      border-bottom: 1px solid rgba(245, 237, 217, 0.14); color: rgba(245, 237, 217, 0.92);
+    }
+    .navbar-header .nav-links li:last-child a { border-bottom: 0; }
+    .navbar-header .nav-links a::after { display: none; }
+
+    /* ── Hero: 문구 → 페퍼 → 버튼 (세로 흐름) ── */
+    .hero-container .hero {
+      width: 100%; height: auto; min-height: 100vh; min-height: 100svh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 20px; padding: 88px 20px 48px; box-sizing: border-box;
+    }
+    .hero .title-layer {
+      position: static; order: 1; width: 100%; height: auto; padding: 0; gap: 8px;
+      flex-direction: column; justify-content: flex-start; transform: none !important;
+    }
+    .hero .title-left, .hero .title-right { width: 100%; max-width: 100%; }
+    .hero .title-right { order: -1; }
+    .hero-tagline { font-size: 12px; letter-spacing: 3px; }
+    .hero-sub { font-size: 13px; letter-spacing: 1px; line-height: 1.7; }
+    .hero .pepper-layer {
+      position: static; order: 2; transform: none !important;
+      width: min(84vw, 340px); max-width: 100%; margin: 0 auto;
+    }
+    .hero .powder-img { width: 100%; height: auto; max-height: 42vh; object-fit: contain; }
+    .hero .hero-cta {
+      position: static; order: 3; left: auto; bottom: auto; transform: none;
+      flex-direction: column; align-items: stretch; gap: 12px; width: min(100%, 280px); margin-top: 8px;
+    }
+    .hero .hero-cta a { text-align: center; box-sizing: border-box; padding: 15px 20px; min-height: 48px; letter-spacing: 2px; }
+    .hero .scroll-hint { display: none; }
+
+    /* ── Intro ── */
+    #intro { grid-template-columns: minmax(0, 1fr) !important; gap: 28px !important; padding: 64px 20px; }
+    #intro .intro-visual { transform: none !important; }
+    #intro > div:last-child { margin-left: 0; }
+    .intro-powder-bowl { width: min(78vw, 320px); max-width: 100%; }
+    .section-title { font-size: clamp(24px, 7vw, 30px); margin-bottom: 20px; }
+    .section-label { font-size: 12px; letter-spacing: 3px; }
+
+    /* ── About ── */
+    #about.about-page { padding: 64px 20px 0; }
+    .about-page .botanical-section { flex-direction: column; gap: 24px; padding: 0 0 48px; }
+    .about-page .role-section {
+      flex-direction: column; gap: 0; padding: 0 0 40px;
+      width: calc(100% + 40px); max-width: none; margin-left: -20px; margin-right: -20px;
+    }
+    .about-page .role-section__content { padding: 40px 20px 8px; }
+    .about-page .botanical-section__image, .about-page .role-section__image,
+    .about-page .botanical-section__content { width: 100%; max-width: 100%; }
+    .botanical-section img, .role-section img { width: 100%; max-width: 100%; height: auto; }
+    .section-title, .botanical-section__content h3, .role-section__content h3 { word-break: keep-all; }
+
+    /* ── Application: 원형 배치 → 1열 ── */
+    .application-ecosystem {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      aspect-ratio: auto; height: auto; max-width: 100%;
+    }
+    .application-ecosystem .application-card, .application-ecosystem .application-core {
+      position: static !important; inset: auto; transform: none !important;
+      width: min(100%, 320px); margin: 0;
+    }
+    .application-ecosystem .application-core { order: 0; margin-bottom: 8px; }
+    .application-card--food { order: 1; } .application-card--dessert { order: 2; }
+    .application-card--beverage { order: 3; } .application-card--fragrance { order: 4; }
+    .application-card--cosmetics { order: 5; }
+
+    /* ── Product ── */
+    .product-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-bottom: 48px; }
+    .product-card-image, .product-card img { max-width: 100%; }
+    .store-banner { padding: 28px 20px; max-width: 100%; box-sizing: border-box; }
+
+    /* ── Contact / Footer ── */
+    #contact { grid-template-columns: minmax(0, 1fr) !important; gap: 40px !important; }
+    .contact-form-wrap, .contact-info, .contact-form { min-width: 0; }
+    .form-input, .form-textarea { width: 100%; box-sizing: border-box; max-width: 100%; }
+    .btn-submit { width: 100%; min-height: 48px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 20px; }
+  }
 </style>
 </head>
 <body>
@@ -2734,7 +2845,8 @@
         <img src="./spice-node-logo.png" alt="Spice Node" class="logo-img">
       </a>
     </div>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#home">HOME</a></li>
       <li><a href="#about">ABOUT</a></li>
       <li><a href="#application">APPLICATION</a></li>
@@ -3419,6 +3531,23 @@
     if (e.key === 'Escape') { closeModal(); }
     else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }  // 포커스가 팝업 밖으로 나가지 않게
   });
+})();
+</script>
+<script>
+/* 모바일 햄버거 메뉴 */
+(function () {
+  var btn = document.getElementById('navToggle'), menu = document.getElementById('navLinks');
+  if (!btn || !menu) return;
+  function setOpen(o) {
+    menu.classList.toggle('active', o);
+    btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    btn.setAttribute('aria-label', o ? '메뉴 닫기' : '메뉴 열기');
+  }
+  btn.addEventListener('click', function () { setOpen(!menu.classList.contains('active')); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+  window.addEventListener('scroll', function () { if (menu.classList.contains('active')) setOpen(false); }, { passive: true });
+  window.addEventListener('resize', function () { if (window.innerWidth > 767) setOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
 })();
 </script>
 </body>
