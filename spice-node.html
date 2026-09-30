@@ -365,6 +365,7 @@
     font-size: 15px;
     color: #FFFFFF;
     letter-spacing: 2px;
+    text-transform: uppercase;
     margin: 0;
     text-align: center;
     opacity: 0;
@@ -2719,6 +2720,15 @@
   }
 
 
+  /* ══════════ HERO (PC): 버튼이 페퍼를 가리지 않도록 ══════════ */
+  @media (min-width: 768px) {
+    /* 화면이 낮아도 페퍼 하단이 버튼 영역(하단 ~100px) 위에서 끝나도록 상한만 지정 (기본 크기는 유지) */
+    .hero .powder-img { max-height: calc(100vh - 210px); }
+  }
+  @media (min-width: 1024px) {
+    .hero .hero-cta { bottom: 36px; }   /* 60px → 36px: 버튼을 더 아래로 */
+  }
+
   /* ══════════ MOBILE (≤767px) 전용 오버라이드 ══════════
      Desktop 규칙은 건드리지 않고, 이 블록에서만 재정의합니다. */
   .nav-toggle { display: none; }   /* Desktop: 햄버거 숨김 */
@@ -2762,21 +2772,17 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 20px; padding: 88px 20px 48px; box-sizing: border-box;
     }
-    .hero .title-layer {
-      position: static; order: 1; width: 100%; height: auto; padding: 0; gap: 8px;
-      flex-direction: column; justify-content: flex-start; transform: none !important;
-    }
-    .hero .title-left, .hero .title-right { width: 100%; max-width: 100%; }
-    .hero .title-right { order: -1; }
-    .hero-tagline { font-size: 12px; letter-spacing: 3px; }
-    .hero-sub { font-size: 13px; letter-spacing: 1px; line-height: 1.7; }
+    /* 순서: ① HIMALAYAN HERITAGE → ② 페퍼 → ③ Botanical Essence… → ④ 버튼 */
+    .hero .title-layer, .hero .title-left, .hero .title-right { display: contents; }
+    .hero .hero-tagline { order: 1; width: 100%; font-size: 12px; letter-spacing: 3px; color: #FFFFFF; }
+    .hero .hero-sub { order: 3; width: 100%; font-size: 13px; letter-spacing: 1px; line-height: 1.7; color: #FFFFFF; }
     .hero .pepper-layer {
       position: static; order: 2; transform: none !important;
       width: min(84vw, 340px); max-width: 100%; margin: 0 auto;
     }
     .hero .powder-img { width: 100%; height: auto; max-height: 42vh; object-fit: contain; }
     .hero .hero-cta {
-      position: static; order: 3; left: auto; bottom: auto; transform: none;
+      position: static; order: 4; left: auto; bottom: auto; transform: none;
       flex-direction: column; align-items: stretch; gap: 12px; width: min(100%, 280px); margin-top: 8px;
     }
     .hero .hero-cta a { text-align: center; box-sizing: border-box; padding: 15px 20px; min-height: 48px; letter-spacing: 2px; }
@@ -2797,22 +2803,38 @@
       flex-direction: column; gap: 0; padding: 0 0 40px;
       width: calc(100% + 40px); max-width: none; margin-left: -20px; margin-right: -20px;
     }
-    .about-page .role-section__content { padding: 40px 20px 8px; }
+    .about-page .role-section__content { padding: 40px 20px 8px; order: 2; }
+    .about-page .role-section__image { order: 1; }                 /* 사진 → 글씨 (01 섹션과 동일) */
+    .about-page .botanical-section__image { order: 1; }
+    .about-page .botanical-section__content { order: 2; }
+    .about-page .botanical-section__content .section-eyebrow,
+    .about-page .role-section__content .section-eyebrow { text-align: center; justify-content: center; }
+    .about-page .botanical-section__content h2,
+    .about-page .role-section__content h2 {
+      text-align: center; font-size: 26px; line-height: 1.35; letter-spacing: -0.3px;
+    }
+    .about-page .botanical-section__content h2 *, .about-page .role-section__content h2 * { font-size: inherit; }
     .about-page .botanical-section__image, .about-page .role-section__image,
     .about-page .botanical-section__content { width: 100%; max-width: 100%; }
-    .botanical-section img, .role-section img { width: 100%; max-width: 100%; height: auto; }
+    .about-page .botanical-section__image, .about-page .role-section__image {
+      position: relative; min-height: 0; height: auto; aspect-ratio: 5 / 6; overflow: hidden;
+    }
+    .about-page .botanical-section__image img, .about-page .role-section__image img {
+      position: absolute; inset: 0; width: 100%; height: 100%; max-width: 100%; object-fit: cover;
+    }
     .section-title, .botanical-section__content h3, .role-section__content h3 { word-break: keep-all; }
 
     /* ── Application: 원형 배치 → 1열 ── */
     .application-ecosystem {
-      display: flex; flex-direction: column; align-items: center; gap: 16px;
-      aspect-ratio: auto; height: auto; max-width: 100%;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 12px;
+      justify-items: center; align-items: start;
+      aspect-ratio: auto; height: auto; width: 100%; max-width: 360px; margin: 0 auto;
     }
     .application-ecosystem .application-card, .application-ecosystem .application-core {
       position: static !important; inset: auto; transform: none !important;
-      width: min(100%, 320px); margin: 0;
+      width: 100%; max-width: 160px; margin: 0; text-align: center;
     }
-    .application-ecosystem .application-core { order: 0; margin-bottom: 8px; }
+    .application-ecosystem .application-core { order: 0; }
     .application-card--food { order: 1; } .application-card--dessert { order: 2; }
     .application-card--beverage { order: 3; } .application-card--fragrance { order: 4; }
     .application-card--cosmetics { order: 5; }
