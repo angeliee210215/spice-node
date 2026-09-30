@@ -2729,6 +2729,21 @@
     .hero .hero-cta { bottom: 36px; }   /* 60px → 36px: 버튼을 더 아래로 */
   }
 
+  /* ══════════ ABOUT (PC): 01 / 02 섹션 통일 ══════════
+     초록 배경은 100vw 그대로 두고, 안쪽 레이아웃을 01 섹션과 동일한 기준으로 맞춤 */
+  @media (min-width: 901px) {
+    .about-page .role-section {
+      --about-w: min(1440px, calc(100vw - 120px));            /* 01 섹션 컨테이너 폭과 동일 */
+      padding: 130px calc((100vw - var(--about-w)) / 2 + (100vw - 120px) * 0.06) 130px;   /* 01: 좌우 6%는 부모폭(100vw-120px) 기준 */
+      gap: clamp(45px, 8vw, 130px);                            /* 01 섹션과 동일한 간격 */
+      align-items: center;
+    }
+    .about-page .role-section__content { padding: 0; max-width: 470px; align-self: center; }   /* 01: max-width 470 */
+    .about-page .role-section__image { min-height: 0; aspect-ratio: 0.82; overflow: hidden; }   /* 01: 비율 0.82 → 549×670 */
+    .about-page .role-section h2 { font-size: clamp(38px, 4vw, 62px); line-height: 1.2; letter-spacing: -0.07em; }
+    .about-page .role-list { margin-top: 48px; }               /* 01: feature-list 와 동일 */
+  }
+
   /* ══════════ MOBILE (≤767px) 전용 오버라이드 ══════════
      Desktop 규칙은 건드리지 않고, 이 블록에서만 재정의합니다. */
   .nav-toggle { display: none; }   /* Desktop: 햄버거 숨김 */
@@ -2798,24 +2813,22 @@
 
     /* ── About ── */
     #about.about-page { padding: 64px 20px 0; }
-    .about-page .botanical-section { flex-direction: column; gap: 24px; padding: 0 0 48px; }
-    .about-page .role-section {
+    /* 01 / 02 공통 틀: 전체폭 사진 → 좌우 20px 패딩 콘텐츠 블록 (02 섹션 기준) */
+    .about-page .botanical-section, .about-page .role-section {
       flex-direction: column; gap: 0; padding: 0 0 40px;
       width: calc(100% + 40px); max-width: none; margin-left: -20px; margin-right: -20px;
     }
-    .about-page .role-section__content { padding: 40px 20px 8px; order: 2; }
-    .about-page .role-section__image { order: 1; }                 /* 사진 → 글씨 (01 섹션과 동일) */
-    .about-page .botanical-section__image { order: 1; }
-    .about-page .botanical-section__content { order: 2; }
+    .about-page .botanical-section__content, .about-page .role-section__content { padding: 40px 20px 8px; order: 2; }
+    .about-page .botanical-section__image, .about-page .role-section__image { order: 1; }   /* 사진 → 글씨 */
     .about-page .botanical-section__content .section-eyebrow,
-    .about-page .role-section__content .section-eyebrow { text-align: center; justify-content: center; }
+    .about-page .role-section__content .section-eyebrow { text-align: left; }
     .about-page .botanical-section__content h2,
     .about-page .role-section__content h2 {
-      text-align: center; font-size: 26px; line-height: 1.35; letter-spacing: -0.3px;
+      text-align: left; font-size: 26px; line-height: 1.35; letter-spacing: -0.3px;
     }
     .about-page .botanical-section__content h2 *, .about-page .role-section__content h2 * { font-size: inherit; }
     .about-page .botanical-section__image, .about-page .role-section__image,
-    .about-page .botanical-section__content { width: 100%; max-width: 100%; }
+    .about-page .botanical-section__content, .about-page .role-section__content { width: 100%; max-width: 100%; box-sizing: border-box; }
     .about-page .botanical-section__image, .about-page .role-section__image {
       position: relative; min-height: 0; height: auto; aspect-ratio: 5 / 6; overflow: hidden;
     }
@@ -3045,8 +3058,7 @@
 
       <h2>
         원료에서 제품까지<br>
-        <em>감각을</em><br>
-        <em>설계하다</em>
+        <em>감각을 설계하다</em>
       </h2>
 
       <p class="section-intro">
