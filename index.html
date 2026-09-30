@@ -2725,6 +2725,15 @@
     /* 화면이 낮아도 페퍼 하단이 버튼 영역(하단 ~100px) 위에서 끝나도록 상한만 지정 (기본 크기는 유지) */
     .hero .powder-img { max-height: calc(100vh - 210px); }
   }
+  /* 페퍼 확대 (PC): 레이아웃(글씨·버튼 위치)은 그대로, 이미지만 커짐.
+     개별 scale 속성이라 기존 transform / parallax 와 충돌하지 않음.
+     화면이 낮을수록 버튼과 가까워지므로 높이에 따라 확대율을 나눔 */
+  @media (min-width: 1280px) {
+    .hero .powder-img { scale: 1.05; }
+  }
+  @media (min-width: 1280px) and (min-height: 860px) {
+    .hero .powder-img { scale: 1.1; }
+  }
   @media (min-width: 1024px) {
     .hero .hero-cta { bottom: 36px; }   /* 60px → 36px: 버튼을 더 아래로 */
   }
@@ -2795,7 +2804,7 @@
       position: static; order: 2; transform: none !important;
       width: min(84vw, 340px); max-width: 100%; margin: 0 auto;
     }
-    .hero .powder-img { width: 100%; height: auto; max-height: 42vh; object-fit: contain; }
+    .hero .powder-img { width: 100%; height: auto; max-height: 42vh; object-fit: contain; scale: 1.1; }   /* 페퍼 확대(레이아웃 불변) */
     .hero .hero-cta {
       position: static; order: 4; left: auto; bottom: auto; transform: none;
       flex-direction: column; align-items: stretch; gap: 12px; width: min(100%, 280px); margin-top: 8px;
